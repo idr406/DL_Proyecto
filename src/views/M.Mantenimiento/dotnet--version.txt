@@ -1,2 +1,0 @@
-dotnet--version
-dotnet new console -n PruebaApp cd PruebaApp dotnet run
