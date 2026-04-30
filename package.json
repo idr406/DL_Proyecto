@@ -4,10 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/idr406/DL_Proyecto.git"
+  },
+  "bugs": {
+    "url": "https://github.com/idr406/DL_Proyecto/issues"
+  },
+  "homepage": "https://github.com/idr406/DL_Proyecto#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
 }
