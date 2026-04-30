@@ -5,7 +5,7 @@ const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',      // Tu usuario de MySQL
   password: '',      // Tu contraseña
-  database: 'dulceria_lupita' // Nombre de tu base de datos
+  database: 'dulceria_lupitabd' // Nombre de tu base de datos
 });
 
 connection.connect((err) => {

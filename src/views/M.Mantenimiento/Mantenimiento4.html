@@ -185,11 +185,79 @@
                             <th>RFC</th>
                             <th>Teléfono</th>
                             <th>Correo</th>
+                            <th>Dirección</th>
+                            <th>Contacto</th>  
+                             <th>Operaciones</th>
                         </tr>
                     </thead>
                     <tbody id="tabla-prov-body"></tbody>
                 </table>
             </div>
+            <script>
+    // Función para cargar proveedores desde la DB al iniciar
+function cargarProveedores() {
+    fetch('/api/proveedores')
+        .then(res => res.json())
+        .then(data => {
+            const tabla = document.getElementById('tabla-prov-body');
+            const selectProv = document.getElementById('prod-prov');
+            
+            tabla.innerHTML = ''; // Limpiar tabla
+            selectProv.innerHTML = '<option value="" disabled selected>Seleccionar Proveedor...</option>';
+
+            data.forEach(prov => {
+                // Llenar Tabla
+                const fila = `<tr>
+                    <td>${prov.Nombre}</td>
+                    <td>${prov.RFC}</td>
+                    <td>${prov.Telefono}</td>
+                    <td>${prov.Correo}</td>
+                    <td>${prov.Direccion}</td>
+                    <td>${prov.Contacto}</td>
+                     <td>
+                        <button onclick="editarProveedor(${prov.id})">Editar</button>
+                        <button onclick="eliminarProveedor(${prov.id})">Eliminar</button>
+                </tr>`;
+                tabla.innerHTML += fila;
+
+                // Llenar Select de productos
+                const option = document.createElement('option');
+                option.value = prov.id; // Usamos el ID de la DB
+                option.text = prov.Nombre;
+                selectProv.add(option);
+            });
+        });
+}
+
+// Ejecutar carga al abrir el módulo de lista
+document.addEventListener('DOMContentLoaded', cargarProveedores);
+
+// Lógica para Registrar Proveedor en la DB
+const formProv = document.getElementById('form-proveedores');
+formProv.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const datos = {
+        nombre: document.getElementById('prov-nombre').value,
+        rfc: document.getElementById('prov-rfc').value,
+        telefono: document.getElementById('prov-tel').value,
+        correo: document.getElementById('prov-correo').value
+    };
+
+    fetch('/api/proveedores/registrar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(datos)
+    })
+    .then(res => res.text())
+    .then(mensaje => {
+        alert(mensaje);
+        formProv.reset();
+        cargarProveedores(); // Recargar datos
+    })
+    .catch(err => console.error('Error:', err));
+});
+</script>
         </div>
 
         <div id="modulo-productos" class="modulo">
@@ -240,30 +308,7 @@
             elemento.classList.add('active');
         }
 
-        // Lógica para Proveedores
-        const formProv = document.getElementById('form-proveedores');
-        formProv.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const nombre = document.getElementById('prov-nombre').value;
-            const rfc = document.getElementById('prov-rfc').value;
-            const tel = document.getElementById('prov-tel').value;
-            const correo = document.getElementById('prov-correo').value;
-
-            // Agregar a la tabla
-            const tabla = document.getElementById('tabla-prov-body');
-            const fila = `<tr><td>${nombre}</td><td>${rfc}</td><td>${tel}</td><td>${correo}</td></tr>`;
-            tabla.innerHTML += fila;
-
-            // Agregar a la lista desplegable de productos
-            const selectProv = document.getElementById('prod-prov');
-            const option = document.createElement('option');
-            option.value = nombre;
-            option.text = nombre;
-            selectProv.add(option);
-
-            alert('Proveedor guardado');
-            formProv.reset();
-        });
+      
 
         // Lógica para Productos
         const formProd = document.getElementById('form-productos');
