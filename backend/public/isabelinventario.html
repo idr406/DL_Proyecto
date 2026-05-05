@@ -39,7 +39,14 @@
 </div>
 
 <script>
+
 const API = "http://localhost:3001";
+
+// 🔔 Pedir permiso UNA sola vez al cargar
+Notification.requestPermission();
+
+// 🧠 Para no repetir notificaciones
+let notificados = new Set();
 
 function cargarInventario(){
     fetch(`${API}/inventario`)
@@ -79,11 +86,23 @@ function mostrarAlertas(data){
 
     data.forEach(p => {
         if(p.cantidad <= 10){
-            ul.innerHTML +=` <li>⚠️ ${p.producto} bajo stock</li>`;
+
+            // Mostrar en lista
+            ul.innerHTML += `<li>⚠️ ${p.producto} bajo stock</li>`;
+
+            // 🔔 Notificación (solo una vez por producto)
+            if (Notification.permission === "granted" && !notificados.has(p.producto)) {
+                new Notification("Stock bajo", {
+                    body:` ${p.producto} tiene poco stock (${p.cantidad})`
+                });
+
+                notificados.add(p.producto);
+            }
         }
     });
 }
 
+// 🔄 Cargar cada 5 segundos
 cargarInventario();
 setInterval(cargarInventario, 5000);
 </script>
