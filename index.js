@@ -12,7 +12,7 @@ app.use('/img', express.static(path.join(__dirname, 'img')));
 
 // Ruta principal
 app.get("/", (req,res)=>{
-  res.sendFile(path.join(__dirname, "registro.html"));
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 // RUTA PARA MOSTRAR PROVEEDORES
@@ -33,6 +33,8 @@ app.post('/api/proveedores/registrar', (req, res) => {
         res.send('Proveedor registrado exitosamente en la base de datos');
     });
 });
+
+
 
 app.listen(3000,()=>{
 console.log("Servidor en http://localhost:3000")
