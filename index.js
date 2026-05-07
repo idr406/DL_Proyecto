@@ -12,7 +12,7 @@ app.use('/img', express.static(path.join(__dirname, 'img')));
 
 // Ruta principal
 app.get("/", (req,res)=>{
-  res.sendFile(path.join(__dirname, "index.html"));
+  res.sendFile(path.join(__dirname, "registro.html"));
 });
 
 // RUTA PARA MOSTRAR PROVEEDORES
