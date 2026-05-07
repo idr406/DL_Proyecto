@@ -12,7 +12,7 @@ app.use('/img', express.static(path.join(__dirname, 'img')));
 
 // Ruta principal
 app.get("/", (req,res)=>{
-  res.sendFile(path.join(__dirname, "index.html"));
+  res.sendFile(path.join(__dirname, "registro.html"));
 });
 
 // RUTA PARA MOSTRAR PROVEEDORES
@@ -39,7 +39,7 @@ app.post('/api/proveedores/registrar', (req, res) => {
 // Actualizar proveedor
 app.post('/api/actualizar/proveedor', (req, res) => {
     const { id, nombre, rfc, telefono, correo } = req.body;
-    const sql = 'UPDATE proveedores SET nombre = ?, rfc = ?, telefono = ?, correo = ? WHERE id = ?';
+    const sql = 'UPDATE proveedores SET nombre = ?,  telefono = ?, correo = ? WHERE rfc = ?';
     db.query(sql, [nombre, rfc, telefono, correo, id], (err, result) => {
         if (err) return res.status(500).send(err);
         res.send('Proveedor actualizado exitosamente en la base de datos');
@@ -49,7 +49,7 @@ app.post('/api/actualizar/proveedor', (req, res) => {
 // Eliminar
 app.post('/api/eliminar/proveedor', (req, res) => {
     const { id } = req.body;
-    const sql = 'DELETE FROM proveedores WHERE id = ?';
+    const sql = 'DELETE FROM proveedores WHERE rfc = ?';
     db.query(sql, [id], (err, result) => {
         if (err) return res.status(500).send(err);
         res.send('Proveedor eliminado exitosamente de la base de datos');
