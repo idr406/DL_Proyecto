@@ -194,6 +194,7 @@
                 </table>
             </div>
             <script>
+                //jona
     // Función para cargar proveedores desde la DB al iniciar
 function cargarProveedores() {
     fetch('/api/proveedores')
@@ -307,7 +308,31 @@ formProv.addEventListener('submit', (e) => {
             document.getElementById(idModulo).classList.add('active');
             elemento.classList.add('active');
         }
+        
+ // Lógica para Proveedores
+        const formProv = document.getElementById('form-proveedores');
+        formProv.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const nombre = document.getElementById('prov-nombre').value;
+            const rfc = document.getElementById('prov-rfc').value;
+            const tel = document.getElementById('prov-tel').value;
+            const correo = document.getElementById('prov-correo').value;
 
+            // Agregar a la tabla
+            const tabla = document.getElementById('tabla-prov-body');
+            const fila = `<tr><td>${nombre}</td><td>${rfc}</td><td>${tel}</td><td>${correo}</td></tr>`;
+            tabla.innerHTML += fila;
+
+            // Agregar a la lista desplegable de productos
+            const selectProv = document.getElementById('prod-prov');
+            const option = document.createElement('option');
+            option.value = nombre;
+            option.text = nombre;
+            selectProv.add(option);
+
+            alert('Proveedor guardado');
+            formProv.reset();
+        });
       
 
         // Lógica para Productos
