@@ -5,17 +5,14 @@ const logger = require('./middleware/logger');
 const app = express()
 
 app.use(logger);
-app.use(express.urlencoded({extended:true}))
+app.use(express.urlencoded({extended:true}));
+app.use(express.json());
+app.use('/src', express.static(path.join(__dirname, 'src')));
+app.use('/img', express.static(path.join(__dirname, 'img')));
 
 // Ruta principal
 app.get("/", (req,res)=>{
-res.sendFile(__dirname + "/registro.html")
-})
-
-app.use('/src', express.static(path.join(__dirname, 'src')));
-
-app.get('/', (req, res) => {
-    res.send('Servidor funcionando con control de logs.');
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 // RUTA PARA MOSTRAR PROVEEDORES
