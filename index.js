@@ -9,7 +9,7 @@ app.use(express.urlencoded({extended:true}))
 
 // Ruta principal
 app.get("/", (req,res)=>{
-res.sendFile(__dirname + "/registro.html")
+res.sendFile(__dirname + "/index.html")
 })
 
 app.use('/src', express.static(path.join(__dirname, 'src')));
