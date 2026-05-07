@@ -3,7 +3,7 @@ const mysql = require("mysql2");
 const cors = require("cors");
 const path = require("path");
 const app = express();
-
+ app.use('/img', express.static(path.join(__dirname, 'img')));
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname,'public')));
