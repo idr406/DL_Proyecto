@@ -12,7 +12,6 @@
             --body-bg: #f3f4f6;
             --danger: #ef4444;
             --success: #10b981;
-            --warning: #f59e0b;
         }
 
         body {
@@ -43,7 +42,6 @@
             cursor: pointer;
             transition: 0.3s;
             display: block;
-            text-decoration: none;
             color: #9ca3af;
             border: none;
             background: none;
@@ -53,11 +51,7 @@
         }
 
         .nav-item:hover { color: white; background: #1f2937; }
-
-        .nav-item.active {
-            background-color: var(--fiusha);
-            color: white;
-        }
+        .nav-item.active { background-color: var(--fiusha); color: white; }
 
         .nav-sub-item {
             padding-left: 45px;
@@ -71,11 +65,7 @@
             overflow-y: auto;
         }
 
-        .modulo {
-            display: none;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
+        .modulo { display: none; animation: fadeIn 0.3s ease-in-out; }
         .modulo.active { display: block; }
 
         @keyframes fadeIn {
@@ -105,6 +95,7 @@
             border-radius: 8px;
             box-sizing: border-box;
             margin-bottom: 15px;
+            font-size: 0.95rem;
         }
 
         .row-inputs { display: flex; gap: 15px; }
@@ -117,47 +108,68 @@
             color: white;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.3s;
+            font-size: 1rem;
+            transition: 0.2s;
             background-color: var(--fiusha);
         }
         .btn-submit:hover { background-color: var(--fiusha-dark); }
 
-        /* Tabla */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         table th, table td {
             text-align: left;
             padding: 12px;
-            border-bottom: 1px solid #fd1270;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 0.9rem;
         }
 
-        table th { background-color: #f9fafb; color: #374151; }
+        table th { background-color: #f9fafb; color: #374151; font-weight: 600; }
 
-        /* Botones de acción */
         .btn-action {
-            padding: 6px 14px;
+            padding: 6px 12px;
             border-radius: 6px;
             border: none;
             cursor: pointer;
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             font-weight: 600;
             color: white;
-            margin-right: 6px;
+            margin-right: 5px;
             transition: opacity 0.2s;
         }
         .btn-edit   { background-color: var(--success); }
         .btn-delete { background-color: var(--danger); }
-        .btn-action:hover { opacity: 0.8; }
+        .btn-action:hover { opacity: 0.75; }
 
         .empty-msg {
             text-align: center;
             color: #9ca3af;
-            padding: 30px 0;
+            padding: 40px 0;
             font-size: 0.95rem;
+        }
+
+        /* Toast de confirmación */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #1f2937;
+            color: white;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 9999;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* Modal */
@@ -165,7 +177,7 @@
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.55);
+            background: rgba(0,0,0,0.5);
             z-index: 1000;
             justify-content: center;
             align-items: center;
@@ -176,16 +188,13 @@
             background: white;
             border-radius: 14px;
             padding: 32px;
-            width: 460px;
+            width: 480px;
             max-width: 92%;
             box-shadow: 0 24px 60px rgba(0,0,0,0.2);
         }
-        .modal h3 {
-            margin-top: 0;
-            margin-bottom: 22px;
-            font-size: 1.15rem;
-        }
-        .modal-actions { display: flex; gap: 12px; margin-top: 6px; }
+        .modal h3 { margin-top: 0; margin-bottom: 20px; font-size: 1.15rem; }
+
+        .modal-actions { display: flex; gap: 12px; margin-top: 8px; }
 
         .btn-cancel {
             flex: 1; padding: 12px;
@@ -194,7 +203,6 @@
             background: white;
             cursor: pointer;
             font-weight: 600;
-            font-size: 0.95rem;
         }
         .btn-save {
             flex: 1; padding: 12px;
@@ -204,7 +212,6 @@
             color: white;
             cursor: pointer;
             font-weight: 600;
-            font-size: 0.95rem;
         }
         .btn-save:hover { background: var(--fiusha-dark); }
     </style>
@@ -226,7 +233,6 @@
 
 <div class="main-content">
 
-    <!-- INICIO -->
     <div id="inicio" class="modulo active">
         <h1>Bienvenido al Panel de Gestión</h1>
         <p>Seleccione una opción en el menú lateral para comenzar.</p>
@@ -237,14 +243,14 @@
         <div class="card">
             <div class="card-title">Registro de Proveedores</div>
             <form id="form-proveedores">
-                <input type="text" id="prov-nombre"   placeholder="Nombre de la Empresa" required>
+                <input type="text"  id="prov-nombre"    placeholder="Nombre de la Empresa" required>
                 <div class="row-inputs">
-                    <input type="text" id="prov-rfc"  placeholder="RFC" maxlength="13" required>
-                    <input type="text" id="prov-tel"  placeholder="Teléfono" maxlength="10" required>
+                    <input type="text" id="prov-rfc"   placeholder="RFC" maxlength="13" required>
+                    <input type="text" id="prov-tel"   placeholder="Teléfono" maxlength="10" required>
                 </div>
-                <input type="email"  id="prov-correo"   placeholder="Correo Electrónico" required>
-                <input type="text"   id="prov-direccion" placeholder="Dirección">
-                <input type="text"   id="prov-contacto"  placeholder="Persona de Contacto">
+                <input type="email" id="prov-correo"   placeholder="Correo Electrónico" required>
+                <input type="text"  id="prov-direccion" placeholder="Dirección">
+                <input type="text"  id="prov-contacto"  placeholder="Persona de Contacto">
                 <button type="submit" class="btn-submit">Registrar Empresa</button>
             </form>
         </div>
@@ -257,12 +263,8 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Nombre</th>
-                        <th>RFC</th>
-                        <th>Teléfono</th>
-                        <th>Correo</th>
-                        <th>Dirección</th>
-                        <th>Contacto</th>
+                        <th>Nombre</th><th>RFC</th><th>Teléfono</th>
+                        <th>Correo</th><th>Dirección</th><th>Contacto</th>
                         <th>Operaciones</th>
                     </tr>
                 </thead>
@@ -276,16 +278,15 @@
         <div class="card">
             <div class="card-title">Catálogo de Productos</div>
             <form id="form-productos">
-                <input type="text"   id="prod-nombre"     placeholder="Nombre del Artículo" required>
-                <select             id="prod-prov"        required>
+                <input type="text"   id="prod-nombre"    placeholder="Nombre del Artículo" required>
+                <select             id="prod-prov"       required>
                     <option value="" disabled selected>Seleccionar Proveedor...</option>
                 </select>
                 <div class="row-inputs">
-                    <input type="number" id="prod-costo"      placeholder="Costo"         step="0.01" required>
-                    <input type="number" id="prod-venta"      placeholder="Venta"         step="0.01" required>
-                    <!-- ✅ CORREGIDO: el segundo input tenía id="prod-stock" duplicado -->
-                    <input type="number" id="prod-stock"      placeholder="Stock"         required>
-                    <input type="number" id="prod-stock-min"  placeholder="Stock Mínimo"  required>
+                    <input type="number" id="prod-costo"     placeholder="Costo"        step="0.01" required>
+                    <input type="number" id="prod-venta"     placeholder="Venta"        step="0.01" required>
+                    <input type="number" id="prod-stock"     placeholder="Stock"        required>
+                    <input type="number" id="prod-stock-min" placeholder="Stock Mínimo" required>
                 </div>
                 <button type="submit" class="btn-submit">Agregar al Catálogo</button>
             </form>
@@ -299,13 +300,8 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Producto</th>
-                        <th>Proveedor</th>
-                        <th>Costo</th>
-                        <th>Venta</th>
-                        <th>Stock</th>
-                        <th>Stock Mínimo</th>
-                        <!-- ✅ AGREGADO: columna Operaciones que faltaba -->
+                        <th>Producto</th><th>Proveedor</th><th>Costo</th>
+                        <th>Venta</th><th>Stock</th><th>Stock Mín.</th>
                         <th>Operaciones</th>
                     </tr>
                 </thead>
@@ -316,19 +312,19 @@
 
 </div>
 
-<!-- ===== MODAL EDITAR PROVEEDOR ===== -->
+<!-- MODAL EDITAR PROVEEDOR -->
 <div class="modal-overlay" id="modal-prov">
     <div class="modal">
         <h3>✏️ Editar Proveedor</h3>
         <input type="hidden" id="edit-prov-id">
-        <input type="text"  id="edit-prov-nombre"    placeholder="Nombre de la Empresa">
+        <input type="text"   id="edit-prov-nombre"    placeholder="Nombre de la Empresa">
         <div class="row-inputs">
-            <input type="text" id="edit-prov-rfc"   placeholder="RFC" maxlength="13">
-            <input type="text" id="edit-prov-tel"   placeholder="Teléfono" maxlength="10">
+            <input type="text" id="edit-prov-rfc"    placeholder="RFC" maxlength="13">
+            <input type="text" id="edit-prov-tel"    placeholder="Teléfono" maxlength="10">
         </div>
-        <input type="email" id="edit-prov-correo"    placeholder="Correo Electrónico">
-        <input type="text"  id="edit-prov-direccion" placeholder="Dirección">
-        <input type="text"  id="edit-prov-contacto"  placeholder="Persona de Contacto">
+        <input type="email"  id="edit-prov-correo"    placeholder="Correo Electrónico">
+        <input type="text"   id="edit-prov-direccion" placeholder="Dirección">
+        <input type="text"   id="edit-prov-contacto"  placeholder="Persona de Contacto">
         <div class="modal-actions">
             <button class="btn-cancel" onclick="cerrarModal('modal-prov')">Cancelar</button>
             <button class="btn-save"   onclick="guardarEdicionProveedor()">Guardar Cambios</button>
@@ -336,7 +332,7 @@
     </div>
 </div>
 
-<!-- ===== MODAL EDITAR PRODUCTO ===== -->
+<!-- MODAL EDITAR PRODUCTO -->
 <div class="modal-overlay" id="modal-prod">
     <div class="modal">
         <h3>✏️ Editar Producto</h3>
@@ -344,8 +340,8 @@
         <input type="text"   id="edit-prod-nombre"    placeholder="Nombre del Artículo">
         <select              id="edit-prod-prov"></select>
         <div class="row-inputs">
-            <input type="number" id="edit-prod-costo"     placeholder="Costo"        step="0.01">
-            <input type="number" id="edit-prod-venta"     placeholder="Venta"        step="0.01">
+            <input type="number" id="edit-prod-costo"     placeholder="Costo"   step="0.01">
+            <input type="number" id="edit-prod-venta"     placeholder="Venta"   step="0.01">
         </div>
         <div class="row-inputs">
             <input type="number" id="edit-prod-stock"     placeholder="Stock">
@@ -358,335 +354,301 @@
     </div>
 </div>
 
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
 <script>
-    // =========================================================
-    // NAVEGACIÓN
-    // =========================================================
-    function mostrarModulo(idModulo, elemento) {
-        document.querySelectorAll('.modulo').forEach(m => m.classList.remove('active'));
-        document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-        document.getElementById(idModulo).classList.add('active');
-        elemento.classList.add('active');
+// ═══════════════════════════════════════════════
+//  UTILIDADES
+// ═══════════════════════════════════════════════
 
-        if (idModulo === 'lista-proveedores') cargarProveedores();
-        if (idModulo === 'lista-productos')   cargarProductos();
-        if (idModulo === 'modulo-productos')  actualizarSelectProveedores(document.getElementById('prod-prov'));
+function toast(msg, color) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.background = color || '#1f2937';
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+function generarId() {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2);
+}
+
+// localStorage helpers
+function getProveedores() {
+    return JSON.parse(localStorage.getItem('proveedores') || '[]');
+}
+function saveProveedores(data) {
+    localStorage.setItem('proveedores', JSON.stringify(data));
+}
+function getProductos() {
+    return JSON.parse(localStorage.getItem('productos') || '[]');
+}
+function saveProductos(data) {
+    localStorage.setItem('productos', JSON.stringify(data));
+}
+
+// ═══════════════════════════════════════════════
+//  NAVEGACIÓN
+// ═══════════════════════════════════════════════
+
+function mostrarModulo(idModulo, elemento) {
+    document.querySelectorAll('.modulo').forEach(m => m.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+    document.getElementById(idModulo).classList.add('active');
+    elemento.classList.add('active');
+
+    if (idModulo === 'lista-proveedores') renderTablaProveedores();
+    if (idModulo === 'lista-productos')   renderTablaProductos();
+    if (idModulo === 'modulo-productos')  llenarSelectProv(document.getElementById('prod-prov'));
+}
+
+// ═══════════════════════════════════════════════
+//  MODALES
+// ═══════════════════════════════════════════════
+
+function abrirModal(id)  { document.getElementById(id).classList.add('active'); }
+function cerrarModal(id) { document.getElementById(id).classList.remove('active'); }
+
+// ═══════════════════════════════════════════════
+//  PROVEEDORES — Registrar
+// ═══════════════════════════════════════════════
+
+document.getElementById('form-proveedores').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const nuevo = {
+        id:        generarId(),
+        Nombre:    document.getElementById('prov-nombre').value.trim(),
+        RFC:       document.getElementById('prov-rfc').value.trim(),
+        Telefono:  document.getElementById('prov-tel').value.trim(),
+        Correo:    document.getElementById('prov-correo').value.trim(),
+        Direccion: document.getElementById('prov-direccion').value.trim(),
+        Contacto:  document.getElementById('prov-contacto').value.trim()
+    };
+
+    const lista = getProveedores();
+    lista.push(nuevo);
+    saveProveedores(lista);
+
+    this.reset();
+    toast('✅ Proveedor registrado correctamente', '#10b981');
+});
+
+// ═══════════════════════════════════════════════
+//  PROVEEDORES — Mostrar en tabla
+// ═══════════════════════════════════════════════
+
+function renderTablaProveedores() {
+    const lista = getProveedores();
+    const tbody = document.getElementById('tabla-prov-body');
+    tbody.innerHTML = '';
+
+    if (lista.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="empty-msg">No hay proveedores registrados aún.</td></tr>';
+        return;
     }
 
-    // =========================================================
-    // MODALES
-    // =========================================================
-    function abrirModal(id)  { document.getElementById(id).classList.add('active'); }
-    function cerrarModal(id) { document.getElementById(id).classList.remove('active'); }
-
-    // =========================================================
-    // PROVEEDORES — Cargar tabla
-    // =========================================================
-    function cargarProveedores() {
-        fetch('/api/proveedores')
-            .then(res => res.json())
-            .then(data => renderTablaProveedores(data))
-            .catch(() => {
-                // Sin API: muestra mensaje vacío
-                document.getElementById('tabla-prov-body').innerHTML =
-                    '<tr><td colspan="7" class="empty-msg">No hay proveedores registrados.</td></tr>';
-            });
-    }
-
-    function renderTablaProveedores(data) {
-        const tabla = document.getElementById('tabla-prov-body');
-        tabla.innerHTML = '';
-
-        if (!data || data.length === 0) {
-            tabla.innerHTML = '<tr><td colspan="7" class="empty-msg">No hay proveedores registrados.</td></tr>';
-            return;
-        }
-
-        data.forEach(prov => {
-            const fila = document.createElement('tr');
-            fila.innerHTML = `
-                <td>${prov.Nombre}</td>
-                <td>${prov.RFC}</td>
-                <td>${prov.Telefono}</td>
-                <td>${prov.Correo}</td>
-                <td>${prov.Direccion || '—'}</td>
-                <td>${prov.Contacto  || '—'}</td>
-                <td>
-                    <button class="btn-action btn-edit"
-                        onclick="abrirEditarProveedor(${prov.id})">✏️ Actualizar</button>
-                    <button class="btn-action btn-delete"
-                        onclick="eliminarProveedor(${prov.id})">🗑️ Eliminar</button>
-                </td>`;
-            tabla.appendChild(fila);
-        });
-
-        // Actualizar también el select de productos con los proveedores cargados
-        actualizarSelectProveedores(document.getElementById('prod-prov'), data);
-        actualizarSelectProveedores(document.getElementById('edit-prod-prov'), data);
-    }
-
-    // =========================================================
-    // PROVEEDORES — Registrar
-    // =========================================================
-    document.getElementById('form-proveedores').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const datos = {
-            nombre:    document.getElementById('prov-nombre').value.trim(),
-            rfc:       document.getElementById('prov-rfc').value.trim(),
-            telefono:  document.getElementById('prov-tel').value.trim(),
-            correo:    document.getElementById('prov-correo').value.trim(),
-            direccion: document.getElementById('prov-direccion').value.trim(),
-            contacto:  document.getElementById('prov-contacto').value.trim()
-        };
-
-        fetch('/api/proveedores/registrar', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(datos)
-        })
-        .then(res => res.text())
-        .then(msg => {
-            alert(msg);
-            document.getElementById('form-proveedores').reset();
-            cargarProveedores();
-        })
-        .catch(() => alert('Error al conectar con el servidor.'));
+    lista.forEach(p => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${p.Nombre}</td>
+            <td>${p.RFC}</td>
+            <td>${p.Telefono}</td>
+            <td>${p.Correo}</td>
+            <td>${p.Direccion || '—'}</td>
+            <td>${p.Contacto  || '—'}</td>
+            <td>
+                <button class="btn-action btn-edit"
+                    onclick="abrirEditarProv('${p.id}')">✏️ Actualizar</button>
+                <button class="btn-action btn-delete"
+                    onclick="eliminarProv('${p.id}')">🗑️ Eliminar</button>
+            </td>`;
+        tbody.appendChild(tr);
     });
+}
 
-    // =========================================================
-    // PROVEEDORES — Editar (abrir modal)
-    // =========================================================
-    function abrirEditarProveedor(id) {
-        fetch('/api/proveedores/' + id)
-            .then(res => res.json())
-            .then(prov => {
-                document.getElementById('edit-prov-id').value        = prov.id;
-                document.getElementById('edit-prov-nombre').value    = prov.Nombre;
-                document.getElementById('edit-prov-rfc').value       = prov.RFC;
-                document.getElementById('edit-prov-tel').value       = prov.Telefono;
-                document.getElementById('edit-prov-correo').value    = prov.Correo;
-                document.getElementById('edit-prov-direccion').value = prov.Direccion || '';
-                document.getElementById('edit-prov-contacto').value  = prov.Contacto  || '';
-                abrirModal('modal-prov');
-            })
-            .catch(() => alert('No se pudo cargar el proveedor.'));
-    }
+// ═══════════════════════════════════════════════
+//  PROVEEDORES — Editar
+// ═══════════════════════════════════════════════
 
-    // =========================================================
-    // PROVEEDORES — Guardar edición
-    // =========================================================
-    function guardarEdicionProveedor() {
-        const id = document.getElementById('edit-prov-id').value;
-        const datos = {
-            nombre:    document.getElementById('edit-prov-nombre').value.trim(),
-            rfc:       document.getElementById('edit-prov-rfc').value.trim(),
-            telefono:  document.getElementById('edit-prov-tel').value.trim(),
-            correo:    document.getElementById('edit-prov-correo').value.trim(),
-            direccion: document.getElementById('edit-prov-direccion').value.trim(),
-            contacto:  document.getElementById('edit-prov-contacto').value.trim()
-        };
+function abrirEditarProv(id) {
+    const p = getProveedores().find(x => x.id === id);
+    if (!p) return;
+    document.getElementById('edit-prov-id').value        = p.id;
+    document.getElementById('edit-prov-nombre').value    = p.Nombre;
+    document.getElementById('edit-prov-rfc').value       = p.RFC;
+    document.getElementById('edit-prov-tel').value       = p.Telefono;
+    document.getElementById('edit-prov-correo').value    = p.Correo;
+    document.getElementById('edit-prov-direccion').value = p.Direccion || '';
+    document.getElementById('edit-prov-contacto').value  = p.Contacto  || '';
+    abrirModal('modal-prov');
+}
 
-        fetch('/api/proveedores/actualizar/' + id, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(datos)
-        })
-        .then(res => res.text())
-        .then(msg => {
-            alert(msg);
-            cerrarModal('modal-prov');
-            cargarProveedores();
-        })
-        .catch(() => alert('Error al actualizar el proveedor.'));
-    }
+function guardarEdicionProveedor() {
+    const id   = document.getElementById('edit-prov-id').value;
+    const lista = getProveedores();
+    const idx  = lista.findIndex(x => x.id === id);
+    if (idx === -1) return;
 
-    // =========================================================
-    // PROVEEDORES — Eliminar
-    // =========================================================
-    function eliminarProveedor(id) {
-        if (!confirm('¿Está seguro de eliminar este proveedor?')) return;
+    lista[idx].Nombre    = document.getElementById('edit-prov-nombre').value.trim();
+    lista[idx].RFC       = document.getElementById('edit-prov-rfc').value.trim();
+    lista[idx].Telefono  = document.getElementById('edit-prov-tel').value.trim();
+    lista[idx].Correo    = document.getElementById('edit-prov-correo').value.trim();
+    lista[idx].Direccion = document.getElementById('edit-prov-direccion').value.trim();
+    lista[idx].Contacto  = document.getElementById('edit-prov-contacto').value.trim();
 
-        fetch('/api/proveedores/eliminar/' + id, { method: 'DELETE' })
-            .then(res => res.text())
-            .then(msg => {
-                alert(msg);
-                cargarProveedores();
-            })
-            .catch(() => alert('Error al eliminar el proveedor.'));
-    }
+    saveProveedores(lista);
+    cerrarModal('modal-prov');
+    renderTablaProveedores();
+    toast('✅ Proveedor actualizado', '#10b981');
+}
 
-    // =========================================================
-    // PRODUCTOS — Helpers
-    // =========================================================
-    function actualizarSelectProveedores(selectEl, proveedores) {
-        if (!selectEl) return;
-        // Si no se pasan proveedores, los pide a la API
-        if (!proveedores) {
-            fetch('/api/proveedores')
-                .then(res => res.json())
-                .then(data => actualizarSelectProveedores(selectEl, data))
-                .catch(() => {});
-            return;
-        }
-        const valorActual = selectEl.value;
-        selectEl.innerHTML = '<option value="" disabled selected>Seleccionar Proveedor...</option>';
-        proveedores.forEach(prov => {
-            const opt = document.createElement('option');
-            opt.value       = prov.id;
-            opt.textContent = prov.Nombre;
-            selectEl.appendChild(opt);
-        });
-        if (valorActual) selectEl.value = valorActual;
-    }
+// ═══════════════════════════════════════════════
+//  PROVEEDORES — Eliminar
+// ═══════════════════════════════════════════════
 
-    // =========================================================
-    // PRODUCTOS — Cargar tabla
-    // =========================================================
-    function cargarProductos() {
-        fetch('/api/productos')
-            .then(res => res.json())
-            .then(data => renderTablaProductos(data))
-            .catch(() => {
-                document.getElementById('tabla-prod-body').innerHTML =
-                    '<tr><td colspan="7" class="empty-msg">No hay productos registrados.</td></tr>';
-            });
-    }
+function eliminarProv(id) {
+    if (!confirm('¿Está seguro de eliminar este proveedor?')) return;
+    saveProveedores(getProveedores().filter(x => x.id !== id));
+    renderTablaProveedores();
+    toast('🗑️ Proveedor eliminado', '#ef4444');
+}
 
-    function renderTablaProductos(data) {
-        const tabla = document.getElementById('tabla-prod-body');
-        tabla.innerHTML = '';
+// ═══════════════════════════════════════════════
+//  PRODUCTOS — Helpers de select
+// ═══════════════════════════════════════════════
 
-        if (!data || data.length === 0) {
-            tabla.innerHTML = '<tr><td colspan="7" class="empty-msg">No hay productos registrados.</td></tr>';
-            return;
-        }
-
-        data.forEach(prod => {
-            // Alerta visual si el stock está en mínimo
-            const stockCell = prod.Stock <= prod.StockMinimo
-                ? `<span style="color:var(--danger);font-weight:bold;">⚠️ ${prod.Stock}</span>`
-                : prod.Stock;
-
-            const fila = document.createElement('tr');
-            fila.innerHTML = `
-                <td>${prod.Nombre}</td>
-                <td>${prod.Proveedor}</td>
-                <td>$${parseFloat(prod.Costo).toFixed(2)}</td>
-                <td>$${parseFloat(prod.PrecioVenta).toFixed(2)}</td>
-                <td>${stockCell}</td>
-                <td>${prod.StockMinimo}</td>
-                <td>
-                    <button class="btn-action btn-edit"
-                        onclick="abrirEditarProducto(${prod.id})">✏️ Actualizar</button>
-                    <button class="btn-action btn-delete"
-                        onclick="eliminarProducto(${prod.id})">🗑️ Eliminar</button>
-                </td>`;
-            tabla.appendChild(fila);
-        });
-    }
-
-    // =========================================================
-    // PRODUCTOS — Registrar
-    // =========================================================
-    document.getElementById('form-productos').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const datos = {
-            nombre:      document.getElementById('prod-nombre').value.trim(),
-            proveedorId: document.getElementById('prod-prov').value,
-            costo:       document.getElementById('prod-costo').value,
-            venta:       document.getElementById('prod-venta').value,
-            stock:       document.getElementById('prod-stock').value,
-            stockMinimo: document.getElementById('prod-stock-min').value   // ✅ ID corregido
-        };
-
-        fetch('/api/productos/registrar', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(datos)
-        })
-        .then(res => res.text())
-        .then(msg => {
-            alert(msg);
-            document.getElementById('form-productos').reset();
-            cargarProductos();
-        })
-        .catch(() => alert('Error al conectar con el servidor.'));
+function llenarSelectProv(selectEl, valorSeleccionado) {
+    if (!selectEl) return;
+    const provs = getProveedores();
+    selectEl.innerHTML = '<option value="" disabled selected>Seleccionar Proveedor...</option>';
+    provs.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value       = p.id;
+        opt.textContent = p.Nombre;
+        selectEl.appendChild(opt);
     });
+    if (valorSeleccionado) selectEl.value = valorSeleccionado;
+}
 
-    // =========================================================
-    // PRODUCTOS — Editar (abrir modal)
-    // =========================================================
-    function abrirEditarProducto(id) {
-        fetch('/api/productos/' + id)
-            .then(res => res.json())
-            .then(prod => {
-                // Primero carga los proveedores en el select del modal, luego selecciona
-                fetch('/api/proveedores')
-                    .then(r => r.json())
-                    .then(provs => {
-                        actualizarSelectProveedores(document.getElementById('edit-prod-prov'), provs);
-                        document.getElementById('edit-prod-id').value        = prod.id;
-                        document.getElementById('edit-prod-nombre').value    = prod.Nombre;
-                        document.getElementById('edit-prod-costo').value     = prod.Costo;
-                        document.getElementById('edit-prod-venta').value     = prod.PrecioVenta;
-                        document.getElementById('edit-prod-stock').value     = prod.Stock;
-                        document.getElementById('edit-prod-stock-min').value = prod.StockMinimo;
-                        document.getElementById('edit-prod-prov').value      = prod.ProveedorId;
-                        abrirModal('modal-prod');
-                    });
-            })
-            .catch(() => alert('No se pudo cargar el producto.'));
+// ═══════════════════════════════════════════════
+//  PRODUCTOS — Registrar
+// ═══════════════════════════════════════════════
+
+document.getElementById('form-productos').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const provId  = document.getElementById('prod-prov').value;
+    const provObj = getProveedores().find(p => p.id === provId);
+
+    const nuevo = {
+        id:          generarId(),
+        Nombre:      document.getElementById('prod-nombre').value.trim(),
+        ProveedorId: provId,
+        Proveedor:   provObj ? provObj.Nombre : '—',
+        Costo:       parseFloat(document.getElementById('prod-costo').value),
+        PrecioVenta: parseFloat(document.getElementById('prod-venta').value),
+        Stock:       parseInt(document.getElementById('prod-stock').value),
+        StockMinimo: parseInt(document.getElementById('prod-stock-min').value)
+    };
+
+    const lista = getProductos();
+    lista.push(nuevo);
+    saveProductos(lista);
+
+    this.reset();
+    toast('✅ Producto agregado al catálogo', '#10b981');
+});
+
+// ═══════════════════════════════════════════════
+//  PRODUCTOS — Mostrar en tabla
+// ═══════════════════════════════════════════════
+
+function renderTablaProductos() {
+    const lista = getProductos();
+    const tbody = document.getElementById('tabla-prod-body');
+    tbody.innerHTML = '';
+
+    if (lista.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="empty-msg">No hay productos registrados aún.</td></tr>';
+        return;
     }
 
-    // =========================================================
-    // PRODUCTOS — Guardar edición
-    // =========================================================
-    function guardarEdicionProducto() {
-        const id = document.getElementById('edit-prod-id').value;
-        const datos = {
-            nombre:      document.getElementById('edit-prod-nombre').value.trim(),
-            proveedorId: document.getElementById('edit-prod-prov').value,
-            costo:       document.getElementById('edit-prod-costo').value,
-            venta:       document.getElementById('edit-prod-venta').value,
-            stock:       document.getElementById('edit-prod-stock').value,
-            stockMinimo: document.getElementById('edit-prod-stock-min').value
-        };
+    lista.forEach(p => {
+        const stockBajo = p.Stock <= p.StockMinimo;
+        const stockCell = stockBajo
+            ? `<span style="color:var(--danger);font-weight:bold;">⚠️ ${p.Stock}</span>`
+            : p.Stock;
 
-        fetch('/api/productos/actualizar/' + id, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(datos)
-        })
-        .then(res => res.text())
-        .then(msg => {
-            alert(msg);
-            cerrarModal('modal-prod');
-            cargarProductos();
-        })
-        .catch(() => alert('Error al actualizar el producto.'));
-    }
-
-    // =========================================================
-    // PRODUCTOS — Eliminar
-    // =========================================================
-    function eliminarProducto(id) {
-        if (!confirm('¿Eliminar este producto del inventario?')) return;
-
-        fetch('/api/productos/eliminar/' + id, { method: 'DELETE' })
-            .then(res => res.text())
-            .then(msg => {
-                alert(msg);
-                cargarProductos();
-            })
-            .catch(() => alert('Error al eliminar el producto.'));
-    }
-
-    // =========================================================
-    // INICIO
-    // =========================================================
-    document.addEventListener('DOMContentLoaded', () => {
-        cargarProveedores(); // Pre-carga proveedores para el select de productos
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${p.Nombre}</td>
+            <td>${p.Proveedor}</td>
+            <td>$${p.Costo.toFixed(2)}</td>
+            <td>$${p.PrecioVenta.toFixed(2)}</td>
+            <td>${stockCell}</td>
+            <td>${p.StockMinimo}</td>
+            <td>
+                <button class="btn-action btn-edit"
+                    onclick="abrirEditarProd('${p.id}')">✏️ Actualizar</button>
+                <button class="btn-action btn-delete"
+                    onclick="eliminarProd('${p.id}')">🗑️ Eliminar</button>
+            </td>`;
+        tbody.appendChild(tr);
     });
+}
+
+// ═══════════════════════════════════════════════
+//  PRODUCTOS — Editar
+// ═══════════════════════════════════════════════
+
+function abrirEditarProd(id) {
+    const p = getProductos().find(x => x.id === id);
+    if (!p) return;
+    llenarSelectProv(document.getElementById('edit-prod-prov'), p.ProveedorId);
+    document.getElementById('edit-prod-id').value        = p.id;
+    document.getElementById('edit-prod-nombre').value    = p.Nombre;
+    document.getElementById('edit-prod-costo').value     = p.Costo;
+    document.getElementById('edit-prod-venta').value     = p.PrecioVenta;
+    document.getElementById('edit-prod-stock').value     = p.Stock;
+    document.getElementById('edit-prod-stock-min').value = p.StockMinimo;
+    abrirModal('modal-prod');
+}
+
+function guardarEdicionProducto() {
+    const id    = document.getElementById('edit-prod-id').value;
+    const lista = getProductos();
+    const idx   = lista.findIndex(x => x.id === id);
+    if (idx === -1) return;
+
+    const provId  = document.getElementById('edit-prod-prov').value;
+    const provObj = getProveedores().find(p => p.id === provId);
+
+    lista[idx].Nombre      = document.getElementById('edit-prod-nombre').value.trim();
+    lista[idx].ProveedorId = provId;
+    lista[idx].Proveedor   = provObj ? provObj.Nombre : '—';
+    lista[idx].Costo       = parseFloat(document.getElementById('edit-prod-costo').value);
+    lista[idx].PrecioVenta = parseFloat(document.getElementById('edit-prod-venta').value);
+    lista[idx].Stock       = parseInt(document.getElementById('edit-prod-stock').value);
+    lista[idx].StockMinimo = parseInt(document.getElementById('edit-prod-stock-min').value);
+
+    saveProductos(lista);
+    cerrarModal('modal-prod');
+    renderTablaProductos();
+    toast('✅ Producto actualizado', '#10b981');
+}
+
+// ═══════════════════════════════════════════════
+//  PRODUCTOS — Eliminar
+// ═══════════════════════════════════════════════
+
+function eliminarProd(id) {
+    if (!confirm('¿Eliminar este producto del inventario?')) return;
+    saveProductos(getProductos().filter(x => x.id !== id));
+    renderTablaProductos();
+    toast('🗑️ Producto eliminado', '#ef4444');
+}
 </script>
 </body>
 </html>
