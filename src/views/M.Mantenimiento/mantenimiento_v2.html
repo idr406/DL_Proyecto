@@ -244,7 +244,7 @@
                 </div>
                 <input type="email"  id="prov-correo"   placeholder="Correo Electrónico" required>
                 <input type="text"   id="prov-direccion" placeholder="Dirección">
-                
+                <input type="text"   id="prov-contacto"  placeholder="Persona de Contacto">
                 <button type="submit" class="btn-submit">Registrar Empresa</button>
             </form>
         </div>
@@ -262,6 +262,7 @@
                         <th>Teléfono</th>
                         <th>Correo</th>
                         <th>Dirección</th>
+                        <th>Contacto</th>
                         <th>Operaciones</th>
                     </tr>
                 </thead>
@@ -327,6 +328,7 @@
         </div>
         <input type="email" id="edit-prov-correo"    placeholder="Correo Electrónico">
         <input type="text"  id="edit-prov-direccion" placeholder="Dirección">
+        <input type="text"  id="edit-prov-contacto"  placeholder="Persona de Contacto">
         <div class="modal-actions">
             <button class="btn-cancel" onclick="cerrarModal('modal-prov')">Cancelar</button>
             <button class="btn-save"   onclick="guardarEdicionProveedor()">Guardar Cambios</button>
@@ -408,6 +410,7 @@
                 <td>${prov.Telefono}</td>
                 <td>${prov.Correo}</td>
                 <td>${prov.Direccion || '—'}</td>
+                <td>${prov.Contacto  || '—'}</td>
                 <td>
                     <button class="btn-action btn-edit"
                         onclick="abrirEditarProveedor(${prov.id})">✏️ Actualizar</button>
