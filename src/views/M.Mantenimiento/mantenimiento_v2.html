@@ -282,6 +282,34 @@
                 <select             id="prod-prov"       required>
                     <option value="" disabled selected>Seleccionar Proveedor...</option>
                 </select>
+
+                <select name="unidad_medida" required>
+                        <option value="" disabled selected>Seleccionar Unidad de Medida...</option>
+                        <optgroup label="Unidades">
+                            <option value="pieza">Pieza</option>
+                            <option value="docena">Docena</option>
+                            <option value="par">Unidad</option>
+                            <option value="caja">Unidad</option>
+                            <option value="Unidades">Unidad</option>                           
+                        </optgroup>
+                        <optgroup label="Peso">
+                            <option value="kg">Kilogramo (kg)</option>
+                            <option value="g">Gramo (g)</option>
+                            <option value="mg">Miligramo (mg)</option>
+                            <option value="t">Tonelada (t)</option>
+                            <option value="lb">Libra (lb)</option>
+                            <option value="oz">Onza (oz)</option>
+                        </optgroup>
+                        <optgroup label="Volumen">
+                            <option value="l">Litro (l)</option>
+                            <option value="ml">Mililitro (ml)</option>
+                             <option value="cm">Centimetro (cm)</option>
+                            <option value="gal">Galon (gal)</option>
+                             <option value="floz">Onza Liquida (floz)</option>
+                        </optgroup>
+                    </select>
+
+
                 <div class="row-inputs">
                     <input type="number" id="prod-costo"     placeholder="Costo"        step="0.01" required>
                     <input type="number" id="prod-venta"     placeholder="Venta"        step="0.01" required>
@@ -331,6 +359,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- MODAL EDITAR PRODUCTO -->
 <div class="modal-overlay" id="modal-prod">
