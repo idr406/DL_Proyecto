@@ -136,6 +136,9 @@ app.post('/api/usuarios/registrar', (req, res) => {
     });
 });
 
+
+
+
 // Actualizar el perfil de usuario
 app.post('/api/actualizar/usuario', (req, res) => {
     const { id, nombre, rol } = req.body;
