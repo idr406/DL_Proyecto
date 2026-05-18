@@ -181,7 +181,62 @@ app.listen(3000, () => {
   console.log('Servidor de Dulcería Lupita corriendo en http://localhost:3000');
 });
 
+// REGISTRAR PROVEEDOR
+app.post("/registrar-proveedor", (req, res) => {
+  const { nombre, rfc, telefono, correo, direccion, contacto } = req.body;
 
+  // Validaciones
+  const regexRFC = /^[A-Z&Ñ]{3}[0-9]{6}[A-Z0-9]{3}$/; // 12 caracteres empresa
+  const regexTelefono = /^[0-9]{10}$/; // 10 dígitos
+  const regexCorreo = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/; // solo minúsculas
+
+  if (!nombre || !rfc || !telefono || !correo) {
+    return res.status(400).json({
+      mensaje: "Todos los campos obligatorios deben llenarse"
+    });
+  }
+
+  if (!regexRFC.test(rfc)) {
+    return res.status(400).json({
+      mensaje: "RFC inválido. Debe tener 12 caracteres."
+    });
+  }
+
+  if (!regexTelefono.test(telefono)) {
+    return res.status(400).json({
+      mensaje: "Teléfono inválido. Debe tener 10 números."
+    });
+  }
+
+  if (!regexCorreo.test(correo)) {
+    return res.status(400).json({
+      mensaje: "El correo debe estar en minúsculas."
+    });
+  }
+
+  const sql = `
+    INSERT INTO proveedores
+    (Nombre, RFC, Telefono, Correo, Direccion, Contacto)
+    VALUES (?, ?, ?, ?, ?, ?)
+  `;
+
+  db.query(
+    sql,
+    [nombre, rfc, telefono, correo, direccion, contacto],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          mensaje: "Error al registrar proveedor"
+        });
+      }
+
+      res.json({
+        mensaje: "Proveedor registrado correctamente"
+      });
+    }
+  );
+});
 
 app.listen(3000,()=>{
 console.log("Servidor en http://localhost:3000")
